@@ -60,8 +60,11 @@ public class BookController {
     @PostMapping("/create-book")
     public ResponseEntity<Book> createBook(@RequestBody Book book){
         // Your code goes here.
+        book.setId(id);
         bookList.add(book);
-        bookDataBase.put(book.getId(), book);
+
+        bookDataBase.put(id, book);
+        id++;
         return new ResponseEntity<>(book, HttpStatus.CREATED);
     }
 
@@ -95,13 +98,10 @@ public class BookController {
     // get request /get-all-books
     // getAllBooks()
     @GetMapping("/get-all-books")
-    public ResponseEntity<List<String>>getAllBooks(){
+    public ResponseEntity<List<Book>>getAllBooks(){
 
-        List<String>response=new ArrayList<>();
-        for (Book book:bookList){
-            response.add(book.getName());
-        }
-        return new ResponseEntity<>(response,HttpStatus.FOUND);
+
+        return new ResponseEntity<>(getBookList(),HttpStatus.FOUND);
     }
 
 
